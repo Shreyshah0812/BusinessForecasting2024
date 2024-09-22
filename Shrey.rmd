@@ -1,0 +1,161 @@
+---
+title: "1 Assignment"
+author: "Shrey"
+date: "2024-09-22"
+output: html_document
+---
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+
+
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+
+# Load the dataset
+file_path <- "C:/Users/Shrey Shah/Desktop/Typical_Employee_Survey_Data (1).xlsx"
+Typical_Employee_Survey_Data_1_ <- read_excel(file_path)
+head(Typical_Employee_Survey_Data_1_)
+
+#Add Header Row
+
+colnames <- c("Column1", "Column2", "Column3", "column4", "column5", "column6", "column7", "column8", "column9", "column10", "column11" )
+head(Typical_Employee_Survey_Data_1_, 10)
+
+#Print the 5-point summary and generate boxplots for numerical columns
+
+summary(Typical_Employee_Survey_Data_1_)
+
+numerical_columns <- sapply(Typical_Employee_Survey_Data_1_, is.numeric)
+for (col in names(Typical_Employee_Survey_Data_1_)[numerical_columns]) {
+  boxplot(Typical_Employee_Survey_Data_1_[[col]], main = paste("Boxplot of", col), ylab = col)
+}
+
+numerical_columns <- sapply(Typical_Employee_Survey_Data_1_, is.numeric)
+for (col in names(Typical_Employee_Survey_Data_1_)[numerical_columns]) {
+  boxplot(Typical_Employee_Survey_Data_1_[[col]], main = paste("Boxplot of", col), ylab = col)
+}
+
+# Convert necessary columns to factors
+
+
+
+factor_columns <- c("Column1", "Column2")  
+Typical_Employee_Survey_Data_1_[factor_columns] <- lapply(Typical_Employee_Survey_Data_1_[factor_columns], as.factor)
+str(Typical_Employee_Survey_Data_1_)
+
+# Plot the right visual for each column
+
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col1"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col1"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col2"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col2"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col3"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col3"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col4"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col4"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col5"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col5"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col6"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col6"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col8"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col8"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col9"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col9"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col10"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col10"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+for (col in names(Typical_Employee_Survey_Data_1_)) {
+  if (is.numeric(Typical_Employee_Survey_Data_1_[["col11"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_histogram(binwidth = 10, fill = "blue") + ggtitle(paste("Histogram of", col))
+  } else if (is.factor(Typical_Employee_Survey_Data_1_[["col11"]])) {
+    ggplot(Typical_Employee_Survey_Data_1_, aes_string(col)) + geom_bar(fill = "green") + ggtitle(paste("Bar plot of", col))
+  }
+}
+
+# Scatter plots to show relationships
+
+numerica_cols <- names(Typical_Employee_Survey_Data_1_)[numerical_columns]
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Typical_Employee_Survey_Data_1_[[numerica_cols[1]]], y = Typical_Employee_Survey_Data_1_[[numerica_cols[2]]])) +
+  geom_point() + 
+  ggtitle(paste("Scatter plot of", numerica_cols[1], "vs", numerica_cols[2]))
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Typical_Employee_Survey_Data_1_[[numerica_cols[3]]], y = Typical_Employee_Survey_Data_1_[[numerica_cols[4]]])) +
+  geom_point() + 
+  ggtitle(paste("Scatter plot of", numerica_cols[3], "vs", numerica_cols[4]))
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Typical_Employee_Survey_Data_1_[[numerica_cols[5]]], y = Typical_Employee_Survey_Data_1_[[numerica_cols[2]]])) +
+  geom_point() + 
+  ggtitle(paste("Scatter plot of", numerica_cols[5], "vs", numerica_cols[2]))
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Typical_Employee_Survey_Data_1_[[numerica_cols[6]]], y = Typical_Employee_Survey_Data_1_[[numerica_cols[8]]])) +
+  geom_point() + 
+  ggtitle(paste("Scatter plot of", numerica_cols[6], "vs", numerica_cols[8]))
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Typical_Employee_Survey_Data_1_[[numerica_cols[9]]], y = Typical_Employee_Survey_Data_1_[[numerica_cols[10]]])) +
+  geom_point() + 
+  ggtitle(paste("Scatter plot of", numerica_cols[9], "vs", numerica_cols[10]))
+
+```
