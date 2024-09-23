@@ -1,0 +1,132 @@
+---
+title: "1 Assignment"
+author: "Shrey"
+date: "2024-09-22"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+
+
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+
+# Load the dataset
+file_path <- "C:/Users/Shrey Shah/Desktop/Typical_Employee_Survey_Data (1).xlsx"
+Typical_Employee_Survey_Data_1_ <- read_excel(file_path)
+head(Typical_Employee_Survey_Data_1_)
+colnames(Typical_Employee_Survey_Data_1_) <- c("Age","Gender","Job_Safisfaction","Job_characteristics","worked_Together","Chances_of_promotion","making_decisions_that_affect_your_work","participate_in_budgetary_decisions","Proud_for_organization","turn_down_another_job_for_more_pay","relations_between_coworkers_and_colleagues")
+print(Typical_Employee_Survey_Data_1_)
+
+# 5 point Summary and Boxplot
+summary(Typical_Employee_Survey_Data_1_)
+
+for (i in 1:ncol(Typical_Employee_Survey_Data_1_)) {
+  boxplot(Typical_Employee_Survey_Data_1_[[i]], main = paste("Boxplot of", colnames(Typical_Employee_Survey_Data_1_)[i]), ylab = colnames(Typical_Employee_Survey_Data_1_)[i])
+}
+
+# Converting some columns to factors
+Typical_Employee_Survey_Data_1_$Age <- as.factor(Typical_Employee_Survey_Data_1_$Age)
+
+Typical_Employee_Survey_Data_1_$Gender <- as.factor(Typical_Employee_Survey_Data_1_$Gender)
+
+Typical_Employee_Survey_Data_1_$Job_Safisfaction <- as.factor(Typical_Employee_Survey_Data_1_$Job_Safisfaction)
+
+Typical_Employee_Survey_Data_1_$Job_characteristics <- as.factor(Typical_Employee_Survey_Data_1_$Job_characteristics)
+
+Typical_Employee_Survey_Data_1_$worked_Together <- as.factor(Typical_Employee_Survey_Data_1_$worked_Together)
+
+Typical_Employee_Survey_Data_1_$Chances_of_promotion <- as.factor(Typical_Employee_Survey_Data_1_$Chances_of_promotion)
+
+Typical_Employee_Survey_Data_1_$making_decisions_that_affect_your_work <- as.factor(Typical_Employee_Survey_Data_1_$making_decisions_that_affect_your_work)
+
+Typical_Employee_Survey_Data_1_$participate_in_budgetary_decisions <- as.factor(Typical_Employee_Survey_Data_1_$participate_in_budgetary_decisions)
+
+Typical_Employee_Survey_Data_1_$Proud_for_organization <- as.factor(Typical_Employee_Survey_Data_1_$Proud_for_organization)
+
+Typical_Employee_Survey_Data_1_$turn_down_another_job_for_more_pay <- as.factor(Typical_Employee_Survey_Data_1_$turn_down_another_job_for_more_pay)
+
+Typical_Employee_Survey_Data_1_$relations_between_coworkers_and_colleagues <- as.factor(Typical_Employee_Survey_Data_1_$relations_between_coworkers_and_colleagues)
+print(Typical_Employee_Survey_Data_1_)
+str(Typical_Employee_Survey_Data_1_)
+
+# Plot the right visual for each column
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Age)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col1")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Gender)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col2")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Job_Safisfaction)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col3")
+ 
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Job_characteristics)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col4")
+ 
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = worked_Together)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col5")
+ 
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Chances_of_promotion)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col6")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = making_decisions_that_affect_your_work)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col7")
+ 
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = participate_in_budgetary_decisions)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col8")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Proud_for_organization)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col9") 
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = turn_down_another_job_for_more_pay)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col10")
+  
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = relations_between_coworkers_and_colleagues)) +
+  geom_bar(fill = "pink", color = "black") +
+  ggtitle("Bar Plot for Column col11")
+
+# Scatter plots to show relationships
+
+library("ggplot2")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Age, y = Gender)) +
+  geom_point(color = "blue") +
+  ggtitle("Scatter Plot for Column Age vs Column Gender") +
+  xlab("Column Age") +
+  ylab("Column Gender")
+
+ggplot(Typical_Employee_Survey_Data_1_, aes(x = Age, y = Job_characteristics)) +
+  geom_point(color = "blue") +
+  ggtitle("Scatter Plot for Column Shrey vs Column Dhariya") +
+  xlab("Column Age") +
+  ylab("Column Job_characteristics")
+
+
+
+
+
+```
+
+
+```
