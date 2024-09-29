@@ -1,0 +1,18 @@
+Variable,Readable Variable Name,Measurement Units,Allowed Values,Defination of the Variable
+Year,Year,YYYY,2003 to 2023,Year
+Month,Month,MM,1 to 12,Month
+Dom_Pax,Domestic Passengers,Numeric,0 to Infinity,Domestic passengers in the particular Month
+Int_Pax,international Passengers,Numeric,0 to Infinity,International passengers in the particular Month
+Pax,Total Passengers,Numeric,0 to Infinity,Total passengers in the particular Month
+Dom_Flt,Domestic Flights,Numeric,0 to Infinity,Total Number of Flight in the Domestic flight in the particular month
+Int_Flt,International Flights,Numeric,0 to Infinity,Total Number of Flight in the International flight in the particular month
+Flt,Total Flights,Numeric,0 to Infinity,Total Number of Flight in the particular month
+Dom_Rpm,Domestic Revenue Pax Miles,Numeric,0 to Infinity, the number of passengers and the distance flown in thousands domestic
+Int_Rpm,International Revenue pax Miles,Numeric,0 to Infinity, the number of passengers and the distance flown in thousands international
+Rpm,Revenue Passengers Miles,Numeric,0 to Infinity, the number of passengers and the distance flown in thousands Total
+Dom_ASM,Domestic Available Seat Miles,Numeric,0 to Infinity,the number of seats and the distance flown in thousands  Domstic
+Int_ASM,International Available Seat Miles,Numeric,0 to Infinity,the number of seats and the distance flown in thousands  International
+ASM,Available Seat miles,Numeric,0 to Infinity,the number of seats and the distance flown in thousands  Total
+Dom_LF,Domestic Load Factor,Numeric,0 to 100,passenger-miles as a proportion of available seat-miles in percent domestic
+Int_LF,International Load Factor,Numeric,0 to 100,passenger-miles as a proportion of available seat-miles in percent international
+LF,Load Factor,Numeric,0 to 100,passenger-miles as a proportion of available seat-miles in percent total
