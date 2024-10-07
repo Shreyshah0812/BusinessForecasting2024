@@ -1,0 +1,139 @@
+---
+title: "Bfweek4"
+author: "Shrey"
+date: "2024-10-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(TTR)
+
+
+
+data <- read.csv("C:/Users/Shrey Shah/Desktop/Electric.csv")
+data$DATE <- as.Date(data$DATE, format="%d-%m-%Y")
+data <- data %>% arrange(DATE)
+print(data)
+
+ts_data <- ts(data$IPG2211A2N, start=c(1985, 1), frequency=12)
+plot(ts_data)
+acf(ts_data)
+
+mean_forecast <- meanf(ts_data,5)
+plot(mean_forecast)
+print(mean_forecast)
+
+naive_forecast <- naive(ts_data,5)
+plot(naive_forecast)
+print(naive_forecast)
+
+
+rwf_forecast <- rwf(ts_data,5)
+rwf_forecast <- rwf(ts_data,5, drift=TRUE)
+plot(rwf_forecast)
+print(rwf_forecast)
+
+
+snaive_forecast <- snaive(ts_data,5)
+plot(snaive_forecast)
+print(snaive_forecast)
+
+
+MA5_forecast <- ma(ts_data,order=5)
+plot(MA5_forecast)
+print(MA5_forecast)
+
+
+MA10_forecast <- ma(ts_data,order=10)
+plot(MA10_forecast)
+print(MA10_forecast)
+
+
+
+dma_forecast <- HoltWinters(ts_data) 
+plot(dma_forecast)
+print(dma_forecast)
+
+
+es_forecast <- ets(ts_data)
+plot(es_forecast)
+attributes(es_forecast)
+es_forecast$mse
+print(es_forecast)
+
+
+holt_forecast <- holt(ts_data)
+plot(holt_forecast)
+print(holt_forecast)
+
+SSE_Simple <- HoltWinters(ts_data,beta=FALSE,gamma=FALSE)
+attributes(SSE_Simple)
+plot(SSE_Simple)
+SSE_Simple$SSE
+head(SSE_Simple$fitted)
+print(SSE_Simple)
+
+forecast_ets_1 <- forecast.ets(es_forecast, h=5)
+plot(forecast_ets_1)
+print(forecast_ets_1)
+
+forecast_ets_2 <- forecast(es_forecast, h=5)
+plot(forecast_ets_2)
+print(forecast_ets_2)
+
+winters_forecast <- hw(ts_data, seasonal="additive")
+plot(winters_forecast)
+print(winters_forecast)
+
+
+plot(mean_forecast)
+lines(naive_forecast$mean,col="red")
+lines(rwf_forecast$mean,col="green")
+lines(snaive_forecast$mean,col="black")
+lines(MA5_forecast,col="orange")
+lines(MA10_forecast,col="blue")
+lines(es_forecast$mean,col="brown")
+lines(holt_forecast$mean,col="yellow")
+lines(winters_forecast$mean,col="pink")
+
+
+accuracy(naive_forecast)
+accuracy(mean_forecast)
+accuracy(snaive_forecast)
+accuracy(es_forecast)
+accuracy(holt_forecast)
+accuracy(winters_forecast)
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+=
