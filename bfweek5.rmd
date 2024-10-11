@@ -1,0 +1,55 @@
+---
+title: "BFweek5"
+author: "Shrey"
+date: "2024-10-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(TTR)
+
+
+data <- read.csv("C:/Users/Shrey Shah/Desktop/Electric.csv")
+data$DATE <- as.Date(data$DATE, format="%d-%m-%Y")
+data <- data %>% arrange(DATE)
+print(data)
+
+ts_data <- ts(data$IPG2211A2N, start=c(1985, 1), frequency=12)
+plot(ts_data)
+acf(ts_data)
+
+
+stl_decomp <- stl(ts_data,s.window ="periodic")
+stl_decomp
+
+plot(stl_decomp)
+
+seasadj(stl_decomp)
+
+lines(seasadj(stl_decomp))
+
+f_stl <- forecast(stl_decomp)
+
+f_stl <- forecast(stl_decomp,h=15)
+
+f_stl
+plot(f_stl)
+
+```
+
