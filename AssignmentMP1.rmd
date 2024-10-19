@@ -1,0 +1,144 @@
+---
+title: "flight1"
+author: "Shrey"
+date: "2024-10-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(readr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(TTR)
+
+flight <- read.csv("C:\\Users\\Shrey Shah\\Desktop\\flightVolume.csv")
+flight1 <- flight$reslong
+
+flight_ts <- ts(flight1, frequency = 12 , start = c(2000,1))
+flight_ts
+
+#Looking at flight data since 2000 gives us a really long view of how air travel has changed over the years. We can see if there's been more or less flying overall, and even figure out when people like to travel the most, like during holidays or summer. This helps us make better guesses about how many flights there will be in the future.
+
+
+
+plot(flight_ts)
+acf(flight_ts)
+
+
+decomposed_ts <- decompose(flight_ts)
+plot(decomposed_ts)
+
+
+#Hypothesize if the dataset has trend, seasonality, or both. 
+#For Trend: From the numbers it looks like the number of flights was going up for a while, but then it started to go down. This might mean the people were flying more, but something has changed after 2030 that made them fly less compare to earlier times.
+
+#For Seasonality: From the Plot we can understand that number of flight goes up and down depending on the time of year. People fly more during holidays and summer, but less in other time period.
+
+acf(flight_ts)
+
+#Verify using Acf
+#From the Acf plot we understand that plot has many spikes at various lags, which confirms the  autocorrelation and presence of both trend and seasonlity.
+
+
+decomposed_ts <- stlf(flight_ts, s.window = "periodic")
+plot(decomposed_ts)
+
+#Verify using decomposition
+#decomposition tells that flight data shows three main parts that are trend, seasonal patterns, and random chnges. For Trend, This tells us if more people are flying over time or if the numbers are going down. It helps us understand the overall direction of air travel, For seasonality, this reveals that certain times of the year, like summer and holidays, always see more flights. It helps us know when travel is usually busier.
+
+
+
+#Chose an accuracy measure
+#for choosing the accuracy we will chose all the 5 accuracy measure studied in class that are RMSE,MAPE,MAE,MPE,ME
+
+# I am choosing RMSE
+
+#Create a forecast model for the next 12 months. Include Naive, Average, Exponential Smoothing, HoltWinters, and Decomposition (both types). 
+
+
+naive_forecast <- naive(flight_ts, h = 12)
+plot(naive_forecast)
+
+mean_forecast <- meanf(flight_ts, h = 12)
+plot(mean_forecast)
+
+ets_forecast <- ets(flight_ts)
+ets_forecast <- forecast(ets_forecast, h = 12)
+plot(ets_forecast)
+
+hw_forecast <- HoltWinters(flight_ts)
+hw_forecast <- forecast(hw_forecast, h = 12)
+plot(hw_forecast)
+
+
+decomp_add <- decompose(flight_ts, type="additive")
+decomp_mult <- decompose(flight_ts, type="multiplicative")
+
+# Decomposition Forecasts using trend component
+decomp_add_forecast <- stlf(decomp_add$trend, h=12)
+decomp_mult_forecast <- stlf(decomp_mult$trend,h=12)
+
+plot(decomp_add_forecast)
+plot(decomp_mult_forecast)
+
+accuracy(naive_forecast)
+accuracy(mean_forecast)
+accuracy(ets_forecast)
+accuracy(hw_forecast)
+accuracy(decomposed_ts)
+
+
+#Show model rank with accuracy measures
+
+#1 ETS Forecast: RMSE = 0.4181 (Best)
+#2 Holt-Winters Forecast: RMSE = 0.4261
+#3 Decomposed Forecast: RMSE = 0.6664
+#4 Naive Forecast: RMSE = 1.9218
+#5 Mean Forecast: RMSE = 2.0637 (Worst)
+
+#Choose which models and how are you going to use them for Forecasting
+
+#I am going with ETS forecasting model because its accuracy is lowest amoung other models.
+
+#Provide the forecast for the next 12 months (point and range) and explain why you feel confident with these forecasts
+
+final_forecast <- forecast(ets_forecast, h = 12) 
+plot(final_forecast)
+final_forecast
+
+#Our forecasts are based on a lot of data from the past 20 years, which helps us see both long-term trends and yearly patterns. We used several different forecasting methods to get a good idea of what might happen. Our tests show that the forecasts are accurate and reliable. We have taken into account the fact that people travel more at certain times of the year, like during holidays.
+
+
+
+#Make sure you provide an interpretation in simple terms (so a layperson can understand) of what each forecast model is telling you. 
+
+##naive Model
+#If there were a certain number of flights last month, the simplest guess for next month is the same number.
+
+## mean model
+#If you don't see any clear trends or patterns in the data, it's okay to just assume that the number of flights will stay about the same.
+
+##Exponential Smoothing (ETS) Forecast
+#This forecast looks at whether the number of flights has been going up or down recently. It's good for when there's a clear trend.
+
+##Holt-Winters Forecast
+#This forecast looks at both the overall trend and the ups and downs that happen at certain times of the year, like during holidays. This makes it better for planning.
+
+
+
+```
+
+
+
