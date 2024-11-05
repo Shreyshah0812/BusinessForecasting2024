@@ -256,14 +256,21 @@ hw_2$model
 #Perform Residual Analysis for this technique.  
 #Do a plot of residuals. What does the plot indicate? 
 plot(hw_2$residuals)
+
+
 #Do a Histogram plot of residuals. What does the plot indicate? 
 hist(hw_2$residuals)
+#The plot displays residuals with a recurring pattern over time, indicating that the model might be missing seasonal components. 
 
 #Do a plot of fitted values vs. residuals. What does the plot indicate?  
 plot(hw_2$fitted,hw_2$residuals)
+#The graph shows that the model's errors are getting bigger as the sales get larger. 
+
+
 #Do a plot of actual values vs. residuals. What does the plot indicate? 
 plot(sales_ts,hw_2$residuals)
 #Do an ACF plot of the residuals? What does this plot indicate? 
+#Values of the Acf have crossed the confidence level meaning there is a trend in the residuals and we have missed some variable in our forecast.
 
 Acf(hw_2$residuals)
 
