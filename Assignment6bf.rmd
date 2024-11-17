@@ -1,0 +1,97 @@
+---
+title: "Assignment6"
+author: "Shrey"
+date: "2024-11-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(UsingR)
+library(TTR)
+
+data <- read.csv("C:\\Users\\Shrey Shah\\Desktop\\house_price_regression_dataset.csv")
+head(data)
+
+data_ts <- ts(data, start=c(2000, 12), frequency=12)
+data_ts
+
+plot(data_ts)
+fuel
+
+plot(data[,-1])
+pairs(data[,-1])
+
+summary(data)
+
+cor(data[,-1])
+
+hist(data$House_Price)
+
+plot(House_Price ~ Square_Footage, data = data)
+
+plot(jitter(House_Price) ~ jitter(Square_Footage), data=data)
+
+fit <- lm(House_Price ~ Square_Footage, data=data)
+fit
+plot(fit)
+
+
+
+
+summary(fit)
+
+#The model suggests that a very small house, hypothetically zero square feet, would be worth around $55,217.77. For each extra square foot, the price goes up by about $200.20. This shows that bigger houses tend to be more expensive.
+
+#The model is very good at predicting house prices based on square footage. It can explain 98.26% of the differences in prices, which is a very high percentage. This means that square footage is a really strong factor in determining house prices.
+
+#The adjusted R-squared is almost the same as the regular R-squared, which is a good thing. This means the model is a good fit for the data and that square footage is a good predictor of house prices.
+
+
+anova(fit)
+#The very low p-value (< 2.2e-16) confirms that Square_Footage is a significant predictor of House_Price.
+
+res <- residuals(fit)
+plot(jitter(res)~jitter(Square_Footage), data=data)
+abline(0,0)
+
+
+hist(res, main = "Residuals of the Model", xlab = "Residuals")
+
+
+fitted(fit)[1]
+
+#The model's predictions aren't always perfect. Sometimes it's way off, like by $96,962 too low or $90,699 too high. On average, it's a bit too high, but the errors are usually pretty evenly spread out around zero.
+
+#The model is pretty good, but it's not perfect. There are still some errors in its predictions, so it could be made even better. Maybe by adding more information or changing how we use the information we already have.
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
