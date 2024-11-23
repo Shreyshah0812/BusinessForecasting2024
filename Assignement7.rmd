@@ -1,0 +1,91 @@
+---
+title: "ARIMA"
+author: "Shrey"
+date: "2024-11-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(UsingR)
+library(TTR)
+
+data <- read.csv("C:\\Users\\Shrey Shah\\Desktop\\Electric.csv")
+ari <- data$IPG2211A2N
+head(ari)
+
+
+
+data_ts <- ts(ari, start=c(1985, 1), frequency=12)
+
+data_ts
+plot(data_ts)
+
+ndiffs(data_ts)
+
+tsdisplay(data_ts)
+
+aritimeseriesdiff1 <- diff(data_ts, differences=1)
+plot(aritimeseriesdiff1)
+
+tsdisplay(aritimeseriesdiff1)
+
+acf(aritimeseriesdiff1, lag.max=20)
+Acf(aritimeseriesdiff1, lag.max=20)
+
+auto_fit <- auto.arima(data_ts, trace=TRUE, stepwise = FALSE)
+
+
+auto_fit
+plot(auto_fit)
+
+attributes(auto_fit)
+
+#The ARIMA(2,1,1)(0,1,1)[12] model is a Seasonal ARIMA designed for time series forecasting with yearly seasonality. It includes a non-seasonal component where (p=2) accounts for dependencies on the last two observations (autoregressive terms), (d=1) applies first differencing to remove trends, and (q=1) incorporates a moving average term to correct for forecast errors. The seasonal component ((0,1,1)[12]) captures yearly patterns by applying seasonal differencing (D=1) to address seasonality and a seasonal moving average term (Q=1) to model seasonal error patterns. This combination ensures the model captures both short-term trends and long-term seasonal behaviors effectively.
+
+
+
+fun <- plot(forecast(auto_fit,h=5,level=c(99.5)))
+
+#The graph illustrates the forecasting capabilities of the ARIMA(2,1,1)(0,1,1)[12] model. The historical data, depicted by the black line, exhibits both an upward trend and seasonal fluctuations. The blue line represents the model's forecast, which accurately captures the observed patterns. The shaded area around the forecast signifies the model's confidence interval, providing a range of potential future values. The model's ability to effectively capture both short-term and long-term trends, as well as seasonal patterns, makes it a valuable tool for informed decision-making.
+
+Acf(auto_fit$residuals)
+
+Box.test(residuals(auto_fit), lag=20, type="Ljung")
+
+plot.ts(residuals(auto_fit))
+
+hist(auto_fit$residuals)
+
+tsdiag(auto_fit)
+
+#The graph displays the difference between the actual data points and the values predicted by the ARIMA model. Ideally, these differences, called residuals, should be random and have no clear pattern. In this case, the residuals seem to fluctuate randomly around zero, suggesting that the model has captured the underlying patterns in the data. However, there might be slight variations in the spread of the residuals over time.
+
+accuracy(auto_fit)
+
+#The best metrics are MAPE (1.943%) and MASE (0.628). Additionally, the near-zero **ACF1** (-0.003) confirms no residual patterns, showing the model fits the data well.
+
+
+
+
+
+
+
+
+```
+
