@@ -1,0 +1,258 @@
+---
+title: "advertising"
+author: "Shrey"
+date: "2024-11-26"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(forecast)
+library(fpp)
+library(fpp2)
+library(UsingR)
+library(TTR)
+
+
+Advertising_data <- read.csv("H:\\advertising.csv")
+Sales_data <- Advertising_data$Sales
+summary(Sales_data)
+
+
+is.na(Advertising_data)
+
+
+data_ts <- ts(Sales_data, start=c(2000, 12), frequency=12)
+data_ts
+
+plot(data_ts)
+
+summary(data_ts)
+
+boxplot(data_ts)
+
+acf(data_ts)
+
+
+#NAIVE_FORECAST
+naive_forecast <- naive(data_ts,12)
+plot(naive_forecast)
+naive_forecast
+
+naive_residual <- naive_forecast$residuals
+naive_fitted <- naive_forecast$fitted
+plot(naive_residual, ylab="Residual")
+
+hist(naive_residual, xlab="Residual")
+
+
+plot(naive_fitted,naive_residual,xy.labels = FALSE,xy.lines = FALSE)
+
+plot(naive_fitted, naive_residual)
+
+#MA_FORECAST
+ma_forecast_1 = ma(data_ts,order=3)
+ma_forecast_2 = ma(data_ts,order=6)
+ma_forecast_3 = ma(data_ts,order=9)
+
+plot(data_ts)
+lines(ma_forecast_1, col="red")
+lines(ma_forecast_2, col="green")
+lines(ma_forecast_3, col="blue")
+
+
+
+
+#MEAN_FORECAST
+mean_forecast <- meanf(data_ts,12)
+plot(mean_forecast)
+print(mean_forecast)
+
+mean_residual <- mean_forecast$residuals
+mean_fitted <- mean_forecast$fitted
+plot(mean_residual, ylab="Residual")
+
+hist(mean_residual, xlab="Residual")
+
+
+plot(mean_fitted,mean_residual,xy.labels = FALSE,xy.lines = FALSE)
+
+plot(mean_fitted, mean_residual)
+
+
+#Exponential Smoothing Methods
+ets_forecast <- ets(data_ts)
+plot(ets_forecast)
+ets_forecast
+
+ets_residual <- ets_forecast$residuals
+ets_fitted <- ets_forecast$fitted
+plot(ets_residual, ylab="Residual")
+
+hist(ets_residual, xlab="Residual")
+
+
+plot(ets_fitted,ets_residual,xy.labels = FALSE,xy.lines = FALSE)
+
+plot(ets_fitted, ets_residual)
+
+
+
+#Simple Smoothing Equations
+ses_forecast <- ses(data_ts,12)
+plot(ses_forecast)
+ses_forecast
+
+ses_residual <- ses_forecast$residuals
+ses_fitted <- ses_forecast$fitted
+plot(ses_residual, ylab="Residual")
+
+hist(ses_residual, xlab="Residual")
+
+
+plot(ses_fitted,ses_residual,xy.labels = FALSE,xy.lines = FALSE)
+
+plot(ses_fitted, ses_residual)
+
+#HOLTWINTER 
+hw_forecast <- hw(data_ts,12)
+plot(hw_forecast)
+hw_forecast
+
+hw_residual <- hw_forecast$residuals
+hw_fitted <- hw_forecast$fitted
+plot(hw_residual, ylab="Residual")
+
+hist(hw_residual, xlab="Residual")
+
+
+plot(hw_fitted,hw_residual,xy.labels = FALSE,xy.lines = FALSE)
+
+plot(hw_fitted, hw_residual)
+
+
+
+
+
+#DECOMPOSITION 
+data_decomp <- stl(data_ts,s.window ="periodic")
+plot(data_decomp)
+
+
+
+
+
+
+#SEASONAL ADJUSTMENT 
+SATS <- seasadj(data_decomp,12)
+plot(SATS)
+SATS
+
+
+
+accuracy(naive_forecast)
+accuracy(mean_forecast)
+accuracy(ets_forecast)
+accuracy(ses_forecast)
+accuracy(hw_forecast)
+
+
+plot(Advertising_data)
+pairs(Advertising_data)
+
+
+summary(Advertising_data)
+
+cor(Advertising_data[,-1])
+
+hist(Advertising_data$Sales)
+
+plot(Sales ~ TV, data = Advertising_data)
+
+plot(jitter(Sales) ~ jitter(TV), data=Advertising_data)
+
+fit <- lm(Sales ~ TV, data=Advertising_data)
+fit
+plot(fit)
+
+
+#ARIMA
+
+ndiffs(data_ts)
+
+tsdisplay(data_ts)
+
+arima_timeseries_diff1 <- diff(data_ts, differences=1)
+plot(arima_timeseries_diff1)
+
+tsdisplay(arima_timeseries_diff1)
+
+acf(arima_timeseries_diff1, lag.max=20)
+Acf(arima_timeseries_diff1, lag.max=20)
+
+auto_fit <- auto.arima(data_ts, trace=TRUE, stepwise = FALSE)
+
+
+auto_fit
+plot(auto_fit)
+
+attributes(auto_fit)
+
+fun <- plot(forecast(auto_fit,h=12,level=c(99.5)))
+
+
+Acf(auto_fit$residuals)
+
+Box.test(residuals(auto_fit), lag=20, type="Ljung")
+
+plot.ts(residuals(auto_fit))
+
+hist(auto_fit$residuals)
+
+tsdiag(auto_fit)
+
+accuracy(auto_fit)
+
+
+
+accuracy_measures <- list()
+
+accuracy_measures$naive <- accuracy(naive_forecast)[, "RMSE"]
+accuracy_measures$ets <- accuracy(ets_forecast)[, "RMSE"]
+accuracy_measures$ses <- accuracy(ses_forecast)[, "RMSE"]
+accuracy_measures$hw <- accuracy(hw_forecast)[, "RMSE"]
+accuracy_measures$arima <- accuracy(auto_fit)[, "RMSE"]
+
+# Combine into a data frame for better readability
+accuracy_summary <- data.frame(
+  Method = names(accuracy_measures),
+  RMSE = unlist(accuracy_measures)
+)
+
+# Print the summary
+print("Accuracy Summary (RMSE):")
+print(accuracy_summary)
+
+# Highlight the method with the lowest RMSE
+best_method <- accuracy_summary[which.min(accuracy_summary$RMSE), ]
+cat("Best method based on RMSE:\n")
+print(best_method)
+
+
+```
+
+
